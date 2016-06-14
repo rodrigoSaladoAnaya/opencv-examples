@@ -38,10 +38,10 @@ class ImgHandler implements HttpHandler {
   void handle(HttpExchange he) {
     def resource = resourcesMapping(he.requestURI)
     def blur_img = selectProcessor(he.requestURI.path)
-    def imageInByte = blur_img.imgProcessor(resource)
-    he.sendResponseHeaders(200, imageInByte.length)
+    def image_in_byte = blur_img.imgProcessor(resource)
+    he.sendResponseHeaders(200, image_in_byte.length)
     OutputStream os = he.getResponseBody()
-    os.write(imageInByte,0,imageInByte.length)
+    os.write(image_in_byte,0,image_in_byte.length)
     os.close()
   }
 }
