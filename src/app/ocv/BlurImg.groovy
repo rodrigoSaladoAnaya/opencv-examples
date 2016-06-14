@@ -27,7 +27,7 @@ class BlurImg {
 
   public BufferedImage toBufferedImage(Mat input_img) {
     int type = BufferedImage.TYPE_BYTE_GRAY
-    if (input_img.channels() > 1) {
+    if(input_img.channels() > 1) {
       type = BufferedImage.TYPE_3BYTE_BGR
     }
     int buffer_size = input_img.channels() * input_img.cols() * input_img.rows()
