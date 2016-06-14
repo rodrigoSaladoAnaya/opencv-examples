@@ -6,10 +6,10 @@ import java.io.OutputStream
 import java.net.URI
 import app.ocv.*
 
-class PaintCircleImgImgHandler implements HttpHandler {
+class ImgHandler implements HttpHandler {
 
   def resourcesMapping(URI requestURI) {
-    println "PaintCircleImgImgHandler: [path: ${requestURI.path}, query: ${requestURI.query}]"
+    println "ImgHandler: [path: ${requestURI.path}, query: ${requestURI.query}]"
     def queryArgs = { query_req ->
       def out = [:]
       query_req.tokenize('&').each { q ->
@@ -27,9 +27,17 @@ class PaintCircleImgImgHandler implements HttpHandler {
     ]
   }
 
+  def selectProcessor(String reqPath) {
+  	def processors = [
+  		'/img/circle': new PaintCircleImg(),
+  		'/img/blur'  : new BlurImg()
+  	]
+  	return processors[reqPath]
+  }
+
   void handle(HttpExchange he) {
     def resource = resourcesMapping(he.requestURI)
-    def blur_img = new PaintCircleImg()
+    def blur_img = selectProcessor(he.requestURI.path)
     def imageInByte = blur_img.imgProcessor(resource)
     he.sendResponseHeaders(200, imageInByte.length)
     OutputStream os = he.getResponseBody()

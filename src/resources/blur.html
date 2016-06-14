@@ -9,7 +9,7 @@
       const radio_inputs = $("#radios-input input");
       $.each(radio_inputs, (i, r) => {
         $(r).click(function() {
-          const n_src = "/blur-img?times=" + $(this).val();
+          const n_src = "/img/blur?times=" + $(this).val();
           $("#pic").attr("src", n_src);
         });
       });
@@ -19,14 +19,14 @@
 </head>
 <body>
   <div id="radios-input">
-    <input type="radio" name="radio-grp" value="0" checked>0
+    <input type="radio" name="radio-grp" value="0">0
     <input type="radio" name="radio-grp" value="1">1
-    <input type="radio" name="radio-grp" value="3">3
+    <input type="radio" name="radio-grp" value="3" checked>3
     <input type="radio" name="radio-grp" value="7">7
     <input type="radio" name="radio-grp" value="25">25
     <input type="radio" name="radio-grp" value="75">75
   </div>
   <hr>
-  <img id="pic" src="/blur-img?times=0">
+  <img id="pic" src="/img/blur?times=3">
 </body>
 </html>

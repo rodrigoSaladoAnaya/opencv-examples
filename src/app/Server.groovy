@@ -11,8 +11,9 @@ class Server {
     def backlog = 0
     def server = HttpServer.create(inet_socket_address, backlog)
     server.createContext('/', new HtmlHandler())
-    server.createContext('/blur-img', new BlurImgHandler())
-    server.createContext('/paint-circle-img', new PaintCircleImgImgHandler())
+    server.createContext('/img', new ImgHandler())
+    //server.createContext('/img/blur', new BlurImgHandler())
+    //server.createContext('/img/circle', new PaintCircleImgImgHandler())
     server.setExecutor(null)
     server.start()
     println "The server is running..."

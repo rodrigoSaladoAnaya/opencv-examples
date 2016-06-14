@@ -9,15 +9,21 @@ import app.ocv.*
 class BlurImgHandler implements HttpHandler {
 
   def resourcesMapping(URI requestURI) {
-    println "ImgHandler: [path: ${requestURI.path}, query: ${requestURI.query}]"
-    def queryTimes = { q ->
-      def tms = q.tokenize('=').last().toInteger()
-      return q? tms: 0
+    println "BlurImgHandler: [path: ${requestURI.path}, query: ${requestURI.query}]"
+    def queryArgs = { query_req ->
+      def out = [:]
+      query_req.tokenize('&').each { q ->
+        def p = q.tokenize('=')
+        if(p.size() == 2) {
+          out[p[0]] = p[1].toInteger()
+        }
+      }
+      return out
     }
     return [
       path: "./resources/img/cathedral.jpg",
       imgFormat: 'jpg',
-      times: queryTimes(requestURI.query)
+      query: queryArgs(requestURI.query)
     ]
   }
 

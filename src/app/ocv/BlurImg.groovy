@@ -13,10 +13,11 @@ import javax.imageio.ImageIO
 class BlurImg {
 
   def imgProcessor(Map params) {
+    println params
     String file_path = params.path
     Mat img = Imgcodecs.imread(file_path)
     if(img.dataAddr() != 0) {
-      def buff = toBufferedImage(blur(img, params.times))
+      def buff = toBufferedImage(blur(img, params.query.times))
       ByteArrayOutputStream baos = new ByteArrayOutputStream()
       ImageIO.write(buff, params.imgFormat, baos)
       byte[] image_in_byte = baos.toByteArray()
