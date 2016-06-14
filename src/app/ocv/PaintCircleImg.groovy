@@ -15,6 +15,6 @@ class PaintCircleImg {
   }
 
   public paint(image, x, y) {
-    Imgproc.circle(image, new Point(x, y), 20, new Scalar(0, 0, 255), 4);
+    Imgproc.circle(image, new Point(x, y), 20, new Scalar(0, 0, 255), 4)
   }
 }
