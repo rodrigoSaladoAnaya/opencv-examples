@@ -16,49 +16,53 @@ import java.awt.image.BufferedImage
 
 class VideoHandler implements HttpHandler {
 
-  void handle(HttpExchange connection) {
+  void handle(HttpExchange he) {
 try{
-    byte[] data
-    Mat webcamMatImage = new Mat();
-    String boundary = "VNetPhysics"
-    Headers responseHeaders = connection.getResponseHeaders();
-    responseHeaders.add("Content-Type", String.format("multipart/x-mixed-replace; boundary=--%s", boundary));
-    responseHeaders.add("Cache-Control", "no-cache, private");
-    responseHeaders.add("Pragma", "no-cache");
-    responseHeaders.add("Max-Age", "0");
-    responseHeaders.add("Expires", "0");
-    connection.sendResponseHeaders(200, 0);
-    OutputStream responseBody = connection.getResponseBody();
-    VideoCapture capture = new VideoCapture(0);
-    capture.set(Videoio.CAP_PROP_FRAME_WIDTH,320);
-    capture.set(Videoio.CAP_PROP_FRAME_HEIGHT,240);
+    println "VideoHandler: ${he.requestURI.path}"
+    Mat webcamMatImage = new Mat()
+    def boundary = "OCVVideoTest"
+    Headers headers = he.getResponseHeaders()
+    headers.add("Content-Type", "multipart/x-mixed-replace; boundary=--${boundary}")
+    headers.add("Cache-Control", "no-cache, private")
+    headers.add("Pragma", "no-cache")
+    headers.add("Max-Age", "0")
+    headers.add("Expires", "0")
+    he.sendResponseHeaders(200, 0)
+    OutputStream os = he.responseBody
+    def capture = new VideoCapture(0)
+    capture.set(Videoio.CAP_PROP_FRAME_WIDTH,320)
+    capture.set(Videoio.CAP_PROP_FRAME_HEIGHT,240)
     def ocvu = new OcvUtils()
+    byte[] data
+    BufferedImage bufferedImage
+    ByteArrayOutputStream baos
 
     if(capture.isOpened()){
       while (true){
-        capture.read(webcamMatImage);
+        capture.read(webcamMatImage)
         if(!webcamMatImage.empty() ){
-          BufferedImage bufferedImage = ocvu.toBufferedImage(webcamMatImage);
-          ByteArrayOutputStream os = new ByteArrayOutputStream(8192 * 4);
-          ImageIO.write(bufferedImage, "jpg", os);
-          data = os.toByteArray();
-          os.close();
-          responseBody.write(("--" + boundary + "\r\n"
+          bufferedImage = ocvu.toBufferedImage(webcamMatImage)
+          baos = new ByteArrayOutputStream(8192 * 4)
+          ImageIO.write(bufferedImage, "jpg", baos)
+          data = baos.toByteArray()
+          baos.close()
+          os.write(("--" + boundary + "\r\n"
                   + "Content-type: image/jpg\r\n"
                   + "Content-Length: "
                   + data.length
-                  + "\r\n\r\n").getBytes());
+                  + "\r\n\r\n").getBytes())
 
-          responseBody.write(data);
-          responseBody.flush();
+          os.write(data)
+          os.flush()
         } else {
-          println(" -- Frame not captured -- Break!");
+          println(" -- Frame not captured -- Break!")
           break;
         }
       }
     } else{
-      println("Couldn't open capture.");
+      println("Couldn't open capture.")
     }
+    os.close()
 } catch(e) { println e }
   }
 }
