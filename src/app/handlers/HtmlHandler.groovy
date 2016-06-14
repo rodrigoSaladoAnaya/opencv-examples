@@ -8,7 +8,14 @@ class HtmlHandler implements HttpHandler {
 
   def resourcesMapping(URI requestURI) {
     println "HtmlHandler: ${requestURI.path}"
-    return new File("./resources${requestURI.path}").text
+    def resource_path = "./resources${requestURI.path}"
+    def resource_body
+    try {
+      resource_body = new File(resource_path)?.text
+    } catch(java.io.FileNotFoundException e) {
+      resource_body = null
+    }
+    return resource_body?:"Resources not found!: [${resource_path}]"
   }
 
   void handle(HttpExchange he) {
