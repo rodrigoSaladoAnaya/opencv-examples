@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blur a Image</title>
+  <script   src="/lib/jquery-3.0.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('img').click(function(e) {
+        const offset = $(this).offset();
+        const x = e.pageX - offset.left;
+        const y = e.pageY - offset.top;
+        const n_src = "/paint-circle-img?x=" + x + "&y=" + y;
+        $("#pic").attr("src", n_src);
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <img id="pic" src="/paint-circle-img?x=342&y=207">
+</body>
+</html>
