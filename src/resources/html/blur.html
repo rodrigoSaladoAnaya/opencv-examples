@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blur a Image</title>
+</head>
+<body>
+  <div id="radios-input">
+    <input type="radio" name="radio-grp" value="0" checked>0
+    <input type="radio" name="radio-grp" value="5">5
+    <input type="radio" name="radio-grp" value="10">10
+    <input type="radio" name="radio-grp" value="15">15
+    <input type="radio" name="radio-grp" value="20">20
+    <input type="radio" name="radio-grp" value="25">25
+    <input type="radio" name="radio-grp" value="30">30
+    <input type="radio" name="radio-grp" value="35">35
+    <input type="radio" name="radio-grp" value="40">40
+    <input type="radio" name="radio-grp" value="50">50
+  </div>
+  <hr>
+  <img id="pic" src="/img/cathedral.jpg?times=0">
+</body>
+<script>
+
+  const radios_input = document.querySelectorAll("#radios-input input");
+  for(let i = 0; i < radios_input.length; i++) {
+    radios_input[i].onclick = function() {
+      document.getElementById("pic").src = "/img/cathedral.jpg?times=" + this.value;
+    }
+  }
+
+</script>
+</html>
