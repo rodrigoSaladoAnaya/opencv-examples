@@ -28,11 +28,11 @@ class ImgHandler implements HttpHandler {
   }
 
   def selectProcessor(String reqPath) {
-  	def processors = [
-  		'/img/circle': new PaintCircleImg(),
-  		'/img/blur'  : new BlurImg()
-  	]
-  	return processors[reqPath]
+    def processors = [
+      '/img/circle': new PaintCircleImg(),
+      '/img/blur'  : new BlurImg()
+    ]
+    return processors[reqPath]
   }
 
   void handle(HttpExchange he) {
