@@ -13,7 +13,6 @@ import javax.imageio.ImageIO
 class BlurImg {
 
   def imgProcessor(Map params) {
-    println params
     String file_path = params.path
     Mat img = Imgcodecs.imread(file_path)
     if(img.dataAddr() != 0) {

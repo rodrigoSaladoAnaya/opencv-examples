@@ -14,7 +14,6 @@ import javax.imageio.ImageIO
 class PaintCircleImg {
 
   def imgProcessor(Map params) {
-    println "params: ${params}"
     String file_path = params.path
     Mat img = Imgcodecs.imread(file_path)
     if(img.dataAddr() != 0) {
