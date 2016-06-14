@@ -1,24 +1,16 @@
 package app.ocv
 
 import org.opencv.core.Mat
-import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
-import javax.imageio.ImageIO
 
 class BlurImg {
 
   def imgProcessor(Map params) {
-    String file_path = params.path
-    Mat img = Imgcodecs.imread(file_path)
-    if(img.dataAddr() != 0) {
-      def buff = new OcvUtils().toBufferedImage(blur(img, params.query.times))
-      ByteArrayOutputStream baos = new ByteArrayOutputStream()
-      ImageIO.write(buff, params.imgFormat, baos)
-      byte[] image_in_byte = baos.toByteArray()
-      baos.close()
-      return image_in_byte
-    }
+    def utils = new OcvUtils()
+    return utils.convertToImg(params, { img, query ->
+      return utils.toBufferedImage(blur(img, query.times))
+    })
   }
 
   public Mat blur(Mat input, int times) {
