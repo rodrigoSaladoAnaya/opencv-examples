@@ -3,31 +3,34 @@
 <head>
   <meta charset="utf-8">
   <title>Blur a Image</title>
+  <script   src="/lib/jquery-3.0.0.min.js"></script>
+  <script>
+    $(document).ready(() => {
+      const radio_inputs = $("#radios-input input");
+      $.each(radio_inputs, (i, r) => {
+        $(r).click(function() {
+          const n_src = "/blur-img?times=" + $(this).val();
+          $("#pic").attr("src", n_src);
+        });
+      });
+    });
+  </script>
+
 </head>
 <body>
   <div id="radios-input">
     <input type="radio" name="radio-grp" value="0" checked>0
+    <input type="radio" name="radio-grp" value="1">1
+    <input type="radio" name="radio-grp" value="2">2
+    <input type="radio" name="radio-grp" value="3">3
+    <input type="radio" name="radio-grp" value="4">4
     <input type="radio" name="radio-grp" value="5">5
     <input type="radio" name="radio-grp" value="10">10
-    <input type="radio" name="radio-grp" value="15">15
-    <input type="radio" name="radio-grp" value="20">20
     <input type="radio" name="radio-grp" value="25">25
-    <input type="radio" name="radio-grp" value="30">30
-    <input type="radio" name="radio-grp" value="35">35
     <input type="radio" name="radio-grp" value="40">40
-    <input type="radio" name="radio-grp" value="50">50
+    <input type="radio" name="radio-grp" value="75">75
   </div>
   <hr>
-  <img id="pic" src="/img/cathedral.jpg?times=0">
+  <img id="pic" src="/blur-img?times=0">
 </body>
-<script>
-
-  const radios_input = document.querySelectorAll("#radios-input input");
-  for(let i = 0; i < radios_input.length; i++) {
-    radios_input[i].onclick = function() {
-      document.getElementById("pic").src = "/img/cathedral.jpg?times=" + this.value;
-    }
-  }
-
-</script>
 </html>

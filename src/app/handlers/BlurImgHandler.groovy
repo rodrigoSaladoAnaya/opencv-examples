@@ -6,33 +6,30 @@ import java.io.OutputStream
 import java.net.URI
 import app.ocv.*
 
-
-class ImgHandler implements HttpHandler {
+class BlurImgHandler implements HttpHandler {
 
   def resourcesMapping(URI requestURI) {
-    println "ImgHandler: path->${requestURI.path}, query->${requestURI.query}"
-    def img = requestURI.path.tokenize("/").last()
-    def querys = { q ->
-      def out = [times: 0]
-      if(q) {
-        def p = q.tokenize('=')
-        out[p[0]] = p[1].toInteger()
-      }
-      return out
+    println "ImgHandler: [path: ${requestURI.path}, query: ${requestURI.query}]"
+    def queryTimes = { q ->
+      def tms = q.tokenize('=').last().toInteger()
+      return q? tms: 0
     }
     return [
-      path: "./resources/img/${img}",
-      query: querys(requestURI.query)
+      path: "./resources/img/cathedral.jpg",
+      imgFormat: 'jpg',
+      times: queryTimes(requestURI.query)
     ]
   }
 
   void handle(HttpExchange he) {
+try {
     def resource = resourcesMapping(he.requestURI)
     def blur_img = new BlurImg()
-    def imageInByte = blur_img.imgProcesor(resource)
+    def imageInByte = blur_img.imgProcessor(resource)
     he.sendResponseHeaders(200, imageInByte.length)
     OutputStream os = he.getResponseBody()
     os.write(imageInByte,0,imageInByte.length)
     os.close()
+} catch(e) { println e }
   }
 }

@@ -12,16 +12,13 @@ import javax.imageio.ImageIO
 
 class BlurImg {
 
-  def imgProcesor(Map params) {
-  	println "params: ${params}"
+  def imgProcessor(Map params) {
   	String file_path = params.path
     Mat img = Imgcodecs.imread(file_path)
-    if(img.dataAddr() == 0) {
-		    println "Couldn't open file ${file_path}"
-		} else {
-      def buff = toBufferedImage(blur(img, params.query?.times))
+    if(img.dataAddr() != 0) {
+      def buff = toBufferedImage(blur(img, params.times))
       ByteArrayOutputStream baos = new ByteArrayOutputStream()
-      ImageIO.write(buff, "jpg", baos)
+      ImageIO.write(buff, params.imgFormat, baos)
       byte[] image_in_byte = baos.toByteArray()
       baos.close()
       return image_in_byte

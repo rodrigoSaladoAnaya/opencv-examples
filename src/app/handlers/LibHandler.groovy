@@ -4,12 +4,12 @@ import com.sun.net.httpserver.HttpHandler
 import com.sun.net.httpserver.HttpExchange
 import java.io.OutputStream
 
-class HtmlHandler implements HttpHandler {
+class LibHandler implements HttpHandler {
 
   def resourcesMapping(URI requestURI) {
-    println "HtmlHandler: ${requestURI.path}"
+    println "LibHandler: ${requestURI.path}"
     def file_str = requestURI.path.tokenize("/").last()
-    return new File("./resources/html/${file_str}.html").text
+    return new File("./resources/lib/${file_str}").text
   }
 
   void handle(HttpExchange he) {
