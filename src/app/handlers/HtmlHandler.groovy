@@ -8,8 +8,7 @@ class HtmlHandler implements HttpHandler {
 
   def resourcesMapping(URI requestURI) {
     println "HtmlHandler: ${requestURI.path}"
-    def file_str = requestURI.path.tokenize("/").last()
-    return new File("./resources/html/${file_str}.html").text
+    return new File("./resources${requestURI.path}").text
   }
 
   void handle(HttpExchange he) {

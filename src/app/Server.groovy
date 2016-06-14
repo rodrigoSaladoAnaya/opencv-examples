@@ -11,7 +11,6 @@ class Server {
     def backlog = 0
     def server = HttpServer.create(inet_socket_address, backlog)
     server.createContext('/', new HtmlHandler())
-    server.createContext('/lib', new LibHandler())
     server.createContext('/blur-img', new BlurImgHandler())
     server.setExecutor(null)
     server.start()
