@@ -22,7 +22,6 @@ class BlurImgHandler implements HttpHandler {
   }
 
   void handle(HttpExchange he) {
-try {
     def resource = resourcesMapping(he.requestURI)
     def blur_img = new BlurImg()
     def imageInByte = blur_img.imgProcessor(resource)
@@ -30,6 +29,5 @@ try {
     OutputStream os = he.getResponseBody()
     os.write(imageInByte,0,imageInByte.length)
     os.close()
-} catch(e) { println e }
   }
 }
