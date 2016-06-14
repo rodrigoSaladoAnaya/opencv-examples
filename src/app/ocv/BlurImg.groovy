@@ -39,9 +39,9 @@ class BlurImg {
     final byte[] pixels = (
       (DataBufferByte) image.getRaster().getDataBuffer()
     ).getData()
-      System.arraycopy(buffer, 0, pixels, 0, buffer.length)
-      return image
-    }
+    System.arraycopy(buffer, 0, pixels, 0, buffer.length)
+    return image
+  }
 
   public Mat blur(Mat input, int times) {
     Mat src_img = new Mat()
