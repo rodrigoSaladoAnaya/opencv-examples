@@ -15,6 +15,6 @@ class Server {
     server.createContext('/vs', new VideoHandler())
     server.setExecutor(null)
     server.start()
-    println "The server is running..."
+    println "The server is running... at ${inet_socket_address.properties}"
   }
 }

@@ -45,28 +45,28 @@ class OcvUtils {
   def convertToVid(OutputStream os, String boundary) {
     def webcamMatImage = new Mat()
     def capture = new VideoCapture(0)
-    capture.set(Videoio.CAP_PROP_FRAME_WIDTH,320)
-    capture.set(Videoio.CAP_PROP_FRAME_HEIGHT,240)
+    capture.set(Videoio.CAP_PROP_FRAME_WIDTH, 320)
+    capture.set(Videoio.CAP_PROP_FRAME_HEIGHT, 240)
     def ocvu = new OcvUtils()
     byte[] data
     BufferedImage bufferedImage
     ByteArrayOutputStream baos
-
-    if(capture.isOpened()){
-      while (true){
+    if(capture.isOpened()) {
+      while (true) {
         capture.read(webcamMatImage)
-        if(!webcamMatImage.empty() ){
+        if(!webcamMatImage.empty()) {
           bufferedImage = ocvu.toBufferedImage(webcamMatImage)
           baos = new ByteArrayOutputStream(8192 * 4)
           ImageIO.write(bufferedImage, "jpg", baos)
           data = baos.toByteArray()
           baos.close()
-          os.write(("--${boundary}\r\n"
-                  + "Content-type: image/jpg\r\n"
-                  + "Content-Length: "
-                  + data.length
-                  + "\r\n\r\n").getBytes())
-
+          os.write((
+              "--${boundary}\r\n"
+            + "Content-type: image/jpg\r\n"
+            + "Content-Length: "
+            + data.length
+            + "\r\n\r\n"
+          ).getBytes())
           os.write(data)
           os.flush()
         } else {
@@ -74,7 +74,7 @@ class OcvUtils {
           break;
         }
       }
-    } else{
+    } else {
       println("Couldn't open capture.")
     }
     os.close()
